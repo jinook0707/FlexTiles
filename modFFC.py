@@ -32,7 +32,6 @@ from datetime import datetime
 import wx
 import wx.lib.scrolledpanel as sPanel
 import numpy as np
-import cv2
 
 DEBUG = False
 
@@ -197,12 +196,12 @@ def str2num(s, c=''):
 #-----------------------------------------------------------------------
 
 def load_img(fp, size=(-1,-1), flag='wx'):
-    """ Load an image using wxPython or OpenCV functions.
+    """ Load an image
 
     Args:
         fp (str): File path of an image to load. 
         size (tuple): Output image size.
-        flag (str): 'wx' or 'cv'
+        flag (str): 'wx' or ... 
 
     Returns:
         img (wx.Image)
@@ -224,43 +223,7 @@ def load_img(fp, size=(-1,-1), flag='wx'):
           type(size[1]) == int: # appropriate size is given
             if img.GetSize() != size:
                 img = img.Rescale(size[0], size[1])
-    
-    elif flag == 'cv':
-        img = cv2.imread(fp)
-        if size != (-1,-1) and type(size[0]) == int and type(size[1]) == int:
-            img = cv2.resize(img, size)
-
     return img
-
-#-----------------------------------------------------------------------
-
-def getColorInfo(img, pt, m=1):
-    """ Get color information around the given position (pt)
-
-    Args:
-        img (numpy.ndarray): Image array
-        pt (tuple): x, y coordinate
-        m (int): Margin to get area around the 'pt'
-
-    Returns:
-        colInfo (dict): Information about color
-    """ 
-    if DEBUG: print("fFuncNClasses.getColorInfo()")
-
-    r = [pt[0]-m, pt[1]-m, pt[0]+m+1, pt[1]+m+1] # rect
-    roi = img[r[1]:r[3],r[0]:r[2]] # region of interest
-    col = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
-    col = col.reshape((col.shape[0]*col.shape[1], col.shape[2]))
-    colInfoKey1 = ['hue', 'sat', 'val']
-    colInfoKey2 = ['med', 'std']
-    colInfo = {}
-    for k1i in range(len(colInfoKey1)):
-        k1 = colInfoKey1[k1i]
-        for k2 in colInfoKey2:
-            k = k1 + "_" + k2 
-            if k2 == 'med': colInfo[k] = int(np.median(col[:,k1i]))
-            elif k2 == 'std': colInfo[k] = int(np.std(col[:,k1i]))
-    return colInfo 
 
 #-----------------------------------------------------------------------
 
