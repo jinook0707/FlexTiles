@@ -1,7 +1,7 @@
 # FlexTiles
 
-The below link is a short demonstration. 
-https://www.youtube.com/watch?v=kwzDmJ1-DpY
+The below link is a short demonstration.<br>
+https://youtu.be/RQN29EORELk<br>
 
 Jinook Oh, Cognitive Biology department, University of Vienna<br>
 Contact: jinook0707@gmail.com, tecumseh.fitch@univie.ac.at<br>
